@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import ResumeLayout from '../layouts/ResumeLayout.astro';
+import CopyMarkdown from './CopyMarkdown.astro';
+import { libraryPages } from '../data/library';
+interface Props { kind: keyof typeof libraryPages }
+const { kind } = Astro.props;
+const page = libraryPages[kind];
+const entries = (await getCollection(kind, ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate!.getTime() - a.data.pubDate!.getTime());
+const base = import.meta.env.BASE_URL;
+const markdown = [
+  `# ${page.title}`, 'By Matthew Rabah', page.lead, page.intro,
+  `## ${page.section}`,
+  ...(entries.length ? entries.map(entry => `### ${entry.data.title}\n\n${entry.data.description}\n\n[Read more](${base}${kind}/${entry.id}/)`) : [page.emptyTitle, page.emptyText]),
+  '## Topics', page.topics.map(topic => `- ${topic}`).join('\n'),
+  `## ${page.sidebarTitle}`, page.sidebarText,
+].join('\n\n') + '\n';
+---
+<ResumeLayout title={`${page.title} | Matthew Rabah`} description={page.description} pageType="CollectionPage">
+  <main id="main" class="shell page-content" tabindex="-1">
+    <section class="hero">
+      <p class="eyebrow">{page.eyebrow}</p>
+      <h1>{page.title}</h1>
+      <p class="lead">{page.lead}</p>
+      <p class="intro">{page.intro}</p>
+      <CopyMarkdown markdown={markdown} filename={`Matthew-Rabah-${kind}.md`} />
+    </section>
+    <div class="library-grid">
+      <section aria-labelledby="entries-heading">
+        <h2 id="entries-heading">{page.section}</h2>
+        {entries.length ? entries.map(entry => <article class="content-card">
+          <p class="content-meta">{entry.data.topic && <span>{entry.data.topic} · </span>}<time datetime={entry.data.pubDate!.toISOString()}>{entry.data.pubDate!.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</time></p>
+          <h3><a href={`${base}${kind}/${entry.id}/`}>{entry.data.title}</a></h3>
+          <p class="intro">{entry.data.description}</p>
+        </article>) : <div class="empty-state">
+          <h3>{page.emptyTitle}</h3>
+          <p>{page.emptyText}</p>
+          <a class="button" href={base}>View my resume <span aria-hidden="true">&nbsp;↗</span></a>
+        </div>}
+      </section>
+      <aside aria-label={page.sidebarTitle}>
+        <section><h2>Topics</h2><ul class="topic-list" role="list">{page.topics.map(topic => <li>{topic}</li>)}</ul></section>
+        <section><h2>{page.sidebarTitle}</h2><p>{page.sidebarText}</p><a href={base}>Explore my experience</a></section>
+      </aside>
+    </div>
+  </main>
+</ResumeLayout>

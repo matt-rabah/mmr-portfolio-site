@@ -1,0 +1,34 @@
+---
+interface Props { markdown: string; filename: string }
+const { markdown, filename } = Astro.props;
+const withActions = Astro.slots.has('before') || Astro.slots.has('after');
+---
+<div class:list={["markdown-tools", { "with-actions": withActions }]} >
+  <div class:list={{ actions: withActions }}>
+  <slot name="before" />
+  <button class="button button-secondary" type="button" data-copy-markdown data-markdown={markdown} data-filename={filename} hidden>Copy as Markdown</button>
+  <slot name="after" />
+  </div>
+  <p class="copy-status" role="status" aria-live="polite"></p>
+</div>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-markdown]').forEach((button) => {
+    const status = button.closest('.markdown-tools')?.querySelector<HTMLElement>('[role="status"]');
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      const markdown = button.dataset.markdown ?? '';
+      try {
+        await navigator.clipboard.writeText(markdown);
+        if (status) status.textContent = 'Copied. Thanks for taking a closer look.';
+      } catch {
+        const url = URL.createObjectURL(new Blob([markdown], { type: 'text/markdown;charset=utf-8' }));
+        const link = document.createElement('a');
+        link.href = url; link.download = button.dataset.filename ?? 'page.md'; link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        if (status) status.textContent = 'Clipboard unavailable. Your Markdown file has been downloaded.';
+      } finally { button.disabled = false; }
+    });
+  });
+</script>
+<style>.markdown-tools { margin-top: 20px; } .markdown-tools.with-actions { margin-top: 0; }</style>

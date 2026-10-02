@@ -1,0 +1,28 @@
+export const libraryPages = {
+  'case-studies': {
+    title: 'Case studies',
+    description: "Matthew Rabah's work in customer experience, CRM improvement, and business-side technology adoption across retail, medtech, and consulting.",
+    eyebrow: 'Work & outcomes',
+    lead: 'The customer problem. The work. What changed.',
+    intro: 'This is where I’ll share case studies from retail, medtech, and consulting, with a clear account of my role, the decisions made, and the evidence behind the results.',
+    section: 'Selected work',
+    emptyTitle: 'Case studies are on the way.',
+    emptyText: 'For now, my resume covers the roles, responsibilities, and outcomes behind this work.',
+    topics: ['Customer experience', 'CRM workflows', 'Technology adoption'],
+    sidebarTitle: 'What each study covers',
+    sidebarText: 'The customer problem, my responsibilities, the approach, and the results. Business-side implementation and technical development will be described separately.',
+  },
+  blog: {
+    title: 'Blog',
+    description: 'Notes by Matthew Rabah on customer experience management, AI adoption, and CRM improvement, informed by retail, medtech, and consulting work.',
+    eyebrow: 'Notes & perspectives',
+    lead: 'Thoughts on making customer experience work in practice.',
+    intro: 'I’ll write about the people, processes, and technology behind customer experience: how teams adopt new tools, improve customer relationships, and measure progress.',
+    section: 'Latest writing',
+    emptyTitle: 'The first posts are on the way.',
+    emptyText: 'In the meantime, explore my experience across retail, medtech, and consulting.',
+    topics: ['Customer experience management', 'AI adoption', 'CRM improvement'],
+    sidebarTitle: 'About the author',
+    sidebarText: 'I’m Matthew Rabah, a Detroit-based customer experience professional with experience in retail, AI-enabled medtech, and consulting.',
+  },
+};
