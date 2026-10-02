@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'Anthropic Serif';
+  src: url('../assets/fonts/AnthropicSerif-Roman-Web.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Sans';
+  src: url('../assets/fonts/AnthropicSans-Roman-Web.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anthropic Mono';
+  src: url('../assets/fonts/AnthropicMono-Roman-Web.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+:root {
+  --font-serif: 'Anthropic Serif', Georgia, serif;
+  --font-sans: 'Anthropic Sans', Arial, Helvetica, sans-serif;
+  --font-mono: 'Anthropic Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-optical-sizing: auto;
+  font-size-adjust: from-font;
+}
